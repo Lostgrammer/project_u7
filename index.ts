@@ -31,6 +31,18 @@ app.post("/author", async(req: Request,res: Response) => {
   res.json(user)
 });
 
+app.post("/post", async (req, res) => {
+  const { title, content, author } = req.body;
+  const result = await prisma.post.create({
+    data: {
+      title: title,
+      content: content,
+      author: { connect: { id: author } },
+    }
+  });
+  res.json(result)
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
 });
