@@ -25,9 +25,6 @@ app.use(express_1.default.json());
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });
-app.listen(PORT, () => {
-    console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
-});
 //rutas db
 app.post("/author", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, email } = req.body;
@@ -35,7 +32,10 @@ app.post("/author", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         data: {
             name: name,
             email: email
-        },
+        }
     });
     res.json(user);
 }));
+app.listen(PORT, () => {
+    console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+});

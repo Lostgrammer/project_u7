@@ -18,18 +18,21 @@ app.get('/', (req:Request, res:Response) => {
   res.send('Express + TypeScript Server');
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
-});
 
 //rutas db
-app.post("/author", async(req: Request,res: Response)=>{
+app.post("/author", async(req: Request,res: Response) => {
   const { name, email } = req.body;
   const user = await prisma.user.create({
     data: {
       name: name,
       email: email
-    },
+    }
   });
-  res.json(user);
+  res.json(user)
 });
+
+app.listen(PORT, () => {
+  console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+});
+
+
