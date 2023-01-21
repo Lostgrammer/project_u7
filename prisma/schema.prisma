@@ -9,7 +9,7 @@ datasource db {
 
 model User{  
   id            Int      @id @default(autoincrement())
-  name          String   @unique
+  name          String  
   email         String
   password      String
   last_session  DateTime @default(now())
@@ -27,28 +27,22 @@ model Playlist{
   userId        Int
   song          Song     @relation(fields: [songId], references: [id])
   songId        Int
-  name          String   @unique
-  artist        String   @unique
-  album         String   @unique
-  year          DateTime 
-  genre         String   
-  duration      String 
+  name          String   
 
   @@map("PlayList")
 }
 
 model Song{  
   id            Int      @id @default(autoincrement())
-  name          String   @unique
-  artist        String   @unique
-  album         String   @unique
-  year          DateTime 
+  name          String   
+  artist        String   
+  album         String   
+  year          DateTime
   genre         String   
-  duration      String 
+  duration      String
+  song_detail   Boolean  @default(false)
 
   PlayList Playlist[]
 
   @@map("songs")
 }
-
-
