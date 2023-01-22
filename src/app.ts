@@ -7,11 +7,11 @@ import { PrismaClient } from '@prisma/client';
 dotenv.config();
 
 //iniciando prisma client
-const prisma = new PrismaClient();
+export const prisma = new PrismaClient();
 
 export const app: Express = express();
 
 app.use(express.json());
 app.get('/', (_req:Request, res:Response) => {
     res.send('Express + TypeScript Server');
-  });
+});
