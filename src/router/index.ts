@@ -1,6 +1,9 @@
-import { userRouter } from "../components/user/user.network"
+import { userRouter } from "../components/user/user.network";
+import { songRouter } from "../components/song/song.network";
+
 const routes = [
     ["/users", userRouter],
+    ["/songs", songRouter],
 ];
 
 export const router = (app: any) => {
