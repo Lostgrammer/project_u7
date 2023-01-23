@@ -15,7 +15,7 @@ const PORT = process.env.PORT ||3000;
 app.use(express.json());
 
 app.get('/', (req:Request, res:Response) => {
-  res.send('Express + TypeScript Server');
+  res.send('Proyecto de la unidad 7');
 });
 
 

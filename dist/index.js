@@ -23,7 +23,7 @@ const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
 app.use(express_1.default.json());
 app.get('/', (req, res) => {
-    res.send('Express + TypeScript Server');
+    res.send('Proyecto de la unidad 7');
 });
 //rutas db
 app.post("/author", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
