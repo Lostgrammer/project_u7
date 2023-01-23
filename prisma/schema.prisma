@@ -29,4 +29,3 @@ model Song {
   genre       String
   duration    Int
 }
-
