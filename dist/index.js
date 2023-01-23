@@ -40,6 +40,16 @@ app.post("/api/v1/songs", (req, res) => __awaiter(void 0, void 0, void 0, functi
     });
     res.json(result);
 }));
+app.get("/api/v1/songs", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const canciones = yield prisma.song.findMany();
+    res.json(canciones);
+}));
+app.get("/api/v1/songs/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const canciones = yield prisma.song.findMany();
+    const song = canciones.find((song) => song.id === Number(id));
+    res.json(song);
+}));
 app.listen(PORT, () => {
     console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
 });
