@@ -39,7 +39,7 @@ model Song {
   year        Int
   genre       String
   duration    Int
-  playlist    Playlist  @relation(fields: [playlist_id], references: [id])
-  playlist_id Int
+  isPublic    Boolean
+  playlists   Playlist[] //Relacion muchos a muchos implicita
   @@map("songs")
 }
