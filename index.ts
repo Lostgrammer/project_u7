@@ -18,27 +18,18 @@ app.get('/', (req:Request, res:Response) => {
   res.send('Proyecto de la unidad 7');
 });
 
-
-//rutas db
-app.post("/author", async(req: Request,res: Response) => {
-  const { name, email } = req.body;
-  const user = await prisma.user.create({
+//añadiendo cancion
+app.post("/api/v1/songs", async (req: Request, res: Response) => {
+  const { name, artist, album, year, genre, duration } = req.body;
+  const result = await prisma.song.create({
     data: {
       name: name,
-      email: email
-    }
-  });
-  res.json(user)
-});
-
-app.post("/post", async (req, res) => {
-  const { title, content, author } = req.body;
-  const result = await prisma.post.create({
-    data: {
-      title: title,
-      content: content,
-      author: { connect: { id: author } },
-    }
+      artist: artist,
+      album: album,
+      year: year,
+      genre: genre,
+      duration: duration
+    } 
   });
   res.json(result)
 });
@@ -46,5 +37,3 @@ app.post("/post", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
 });
-
-
