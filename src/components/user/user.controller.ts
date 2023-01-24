@@ -12,7 +12,14 @@ export const registerUser =async (req: Request, res: Response) => {
         });
         res.status(201).json({
             ok: true,
-            data: newUser,
+            data: {
+                id: newUser.id,
+                email: newUser.email,
+                name: newUser.name,
+                date_born: newUser.date_born,
+                last_session: newUser.last_session,
+                token: generateToken(newUser.id)
+            }
         });
     } catch (error: any){
         return res.status(500).json({
