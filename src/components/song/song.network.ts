@@ -1,7 +1,9 @@
 import { Router } from "express";
-import { findAll, findOne } from "./song.controller";
+import { findAll, findOne, create } from "./song.controller";
+import { auth } from "../../middlewares/auth"
 
 export const songRouter = Router();
 
-songRouter.get("", findAll);
-songRouter.get("/:id", findOne);
+songRouter.get("", auth, findAll);
+songRouter.get("/:id", auth, findOne);
+songRouter.post("", auth, create);
