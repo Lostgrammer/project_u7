@@ -25,27 +25,30 @@ app.use(express_1.default.json());
 app.get('/', (req, res) => {
     res.send('Proyecto de la unidad 7');
 });
-//rutas db
-app.post("/author", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email } = req.body;
-    const user = yield prisma.user.create({
+//añadiendo cancion
+app.post("/api/v1/songs", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { name, artist, album, year, genre, duration } = req.body;
+    const result = yield prisma.song.create({
         data: {
             name: name,
-            email: email
-        }
-    });
-    res.json(user);
-}));
-app.post("/post", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { title, content, author } = req.body;
-    const result = yield prisma.post.create({
-        data: {
-            title: title,
-            content: content,
-            author: { connect: { id: author } },
+            artist: artist,
+            album: album,
+            year: year,
+            genre: genre,
+            duration: duration
         }
     });
     res.json(result);
+}));
+app.get("/api/v1/songs", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const canciones = yield prisma.song.findMany();
+    res.json(canciones);
+}));
+app.get("/api/v1/songs/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const canciones = yield prisma.song.findMany();
+    const song = canciones.find((song) => song.id === Number(id));
+    res.json(song);
 }));
 app.listen(PORT, () => {
     console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
