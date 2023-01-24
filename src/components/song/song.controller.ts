@@ -1,11 +1,12 @@
 import { prisma } from "../../app";
 import { Request, Response } from 'express';
 
-export const findAll = async (_req: Request, res: Response) => {
+export const findAll = async (req: Request, res: Response) => {
     try {
         const songs = await prisma.song.findMany();
-        if (req.user) res.json({ ok: true, data: songs });
-        else res.json({ ok: true, data: songs.filter(song => !song.isPublic) });
+        console.log(songs);
+        if (req.userId) res.json({ ok: true, data: songs });
+        else res.json({ ok: true, data: songs.filter(song => song.isPublic) });
     } catch (error: any) {
         return res.status(500).json({
             ok: false,
@@ -16,18 +17,28 @@ export const findAll = async (_req: Request, res: Response) => {
 
 export const findOne =async (req: Request, res: Response) => {
     try {
-        if (req.user) {
-            const song = await prisma.song.findFirst({
-                where: {
-                    id: parseInt(req.params.id),
-                }
-            });
-            res.json({
-                ok: true,
-                data: song
+        const song = await prisma.song.findFirst({
+            where: {
+                id: parseInt(req.params.id),
+            }
+        });
+        if (!req.userId && !song?.isPublic) {
+            res.status(401).json({
+                ok: false,
+                data: "Song is not public. Please log in."
             });
         } else {
-            
+            res.json({
+                ok: true,
+                data: {
+                    name: song?.name,
+                    artist: song?.artist,
+                    album: song?.album,
+                    year: song?.year,
+                    genre: song?.genre,
+                    duration: song?.duration
+                } 
+            });
         }
     } catch (error: any){
         return res.status(500).json({
@@ -42,10 +53,9 @@ export const create = async (req:any, res: Response) => {
         const { body } = req;
         const user = await prisma.user.findFirst({
             where: {
-                id: body.user
+                id: req.userId
             }
         })
-        console.log(body);
         if(user && user.email == "admin@admin.com"){
             const newSong = await prisma.song.create({
                 data: {

@@ -19,13 +19,14 @@ export const auth = (req: Request, res: Response, next: Function) => {
     if(bearerHeader){
         try {
             token = bearerHeader.split(" ")[1];
-            req.user = jwt.verify(token, KEY);
+            req.userId = jwt.verify(token, KEY).id;
             next();
-        } catch (error) {
-            return res.status(401).send("Invalid token");
+        } catch (error: any) {
+            return res.status(401).json({
+                ok: false,
+                data: error.message
+            });
         }
     }
-    if(!token){
-        return res.status(401).send("No token");
-    }
+    next();
 }
