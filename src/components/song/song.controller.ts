@@ -4,7 +4,6 @@ import { Request, Response } from 'express';
 export const findAll = async (req: Request, res: Response) => {
     try {
         const songs = await prisma.song.findMany();
-        console.log(songs);
         if (req.userId) res.json({ ok: true, data: songs });
         else res.json({ ok: true, data: songs.filter(song => song.isPublic) });
     } catch (error: any) {
