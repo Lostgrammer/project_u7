@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.playlistRouter = void 0;
+const express_1 = require("express");
+const playlist_controller_1 = require("./playlist.controller");
+const auth_1 = require("../../middlewares/auth");
+exports.playlistRouter = (0, express_1.Router)();
+exports.playlistRouter.post("", auth_1.auth, playlist_controller_1.create);
+exports.playlistRouter.get("", auth_1.auth, playlist_controller_1.findAll);
+exports.playlistRouter.get("/:id", auth_1.auth, playlist_controller_1.findOne);
