@@ -85,3 +85,59 @@ export const create = async (req:any, res: Response) => {
         });
     }
 }
+
+export const toPlaylist = async (req: Request, res: Response) => {
+    try {
+        if (!req.userId){
+            res.status(401).json({
+                ok: false,
+                data: "Please log in or sign up to create a playlist."
+            });
+            return;
+        }
+        const { body } = req;
+        if (!(body.songId && (body.playlistId? !body.playlistName:body.playlistName))){
+            res.status(400).json({
+                ok: false,
+                data: "Please enter a songId, and a playlistId or playlistName "
+            });
+            return;
+        }
+        let playlist;
+        if (body.playlistId) {
+            playlist = await prisma.playlist.update({
+                where: { id: body.playlistId },
+                data: {
+                    songs: { connect: { id: body.songId }}
+                }
+            });
+        } else {
+            playlist = await prisma.playlist.create({
+                data: {
+                    name: body.playlistName,
+                    userId: req.userId,
+                    songs: {
+                        connect: { id: body.songId }
+                    }
+                }
+            });
+        }
+        playlist= await prisma.playlist.findFirst({
+            where:{
+                id: playlist.id,
+            },
+            include: {
+                songs: true
+            }
+        });
+        res.status(201).json({
+            ok: true,
+            data: playlist,
+        });
+    } catch (error: any) {
+        return res.status(500).json({
+            ok: false,
+            data: error.message
+        });
+    }
+}

@@ -41,21 +41,6 @@ export const findAll = async (req: Request, res: Response) => {
                     songs: true
                 }
             });
-            // const playlists_songs = playlists.map(async pl => {
-            //     const songs = await prisma.song.findMany({
-            //         where: {
-            //             playlists: {
-            //                 every: { id: pl.id}
-            //             }
-            //         }
-            //     })
-            //     return {
-            //         id: pl.id,
-            //         name: pl.name,
-            //         userId: pl.userId,
-            //         songs: songs
-            //     }
-            // });
             res.json({ 
                 ok: true, 
                 data: playlists
@@ -98,15 +83,6 @@ export const findOne = async (req:Request, res: Response) => {
                 data: "Please log in or sign up to view your playlists."
             });
         }
-        const playlist = await prisma.playlist.findFirst({
-            where:{
-                id: parseInt(req.params.id),
-            }
-        });
-        res.json({
-            ok: true,
-            data: playlist
-        });
     } catch (error: any){
         return res.status(500).json({
             ok: false,
