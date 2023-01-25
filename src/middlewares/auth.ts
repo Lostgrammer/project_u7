@@ -27,6 +27,7 @@ export const auth = (req: Request, res: Response, next: Function) => {
                 data: error.message
             });
         }
+    } else {
+        next();
     }
-    next();
 }
